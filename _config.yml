@@ -62,11 +62,11 @@ kramdown:
 # Gitalk
 gitalk:
   enable: true    #是否开启Gitalk评论
-  clientID: f2c84e7629bb1446c1a4                            #生成的clientID
-  clientSecret: ca6d6139d1e1b8c43f8b2e19492ddcac8b322d0d    #生成的clientSecret
-  repo: code1man.github.io    #仓库名称
+  clientID: Ov23li2xY4U7XlSWiQCj                            #生成的clientID
+  clientSecret: e89ee5e621bb006b61b10a62e6599e7a18775d5d    #生成的clientSecret
+  repo: -blog-comments #仓库名称
   owner: code1man    #github用户名
-  admin: qiubaiying
+  admin: code1man    #管理员用户名
   distractionFreeMode: true #是否启用类似FB的阴影遮罩
 
 
@@ -74,7 +74,7 @@ gitalk:
 
 # Analytics settings
 # Baidu Analytics
-ba_track_id: b50bf2b12b5338a1845e33832976fd68
+ba_track_id: 51d82c5eda8f1544b33e5363d0d16789
 
 # Google Analytics
 ga_track_id: 'UA-90855596-1'            # Format: UA-xxxxxx-xx
