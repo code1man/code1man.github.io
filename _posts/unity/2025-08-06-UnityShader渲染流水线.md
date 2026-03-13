@@ -4,6 +4,8 @@ title:      UnityShader渲染流水线
 date:       2025-08-06
 subtitle:   UnityShader渲染流水线，包括渲染中的一些基础概念和前置知识
 categories: Unity Shader
+catalog:    true
+header-img: /img/unity/艳阳莫宁.jpg
 tags: 
   - Unity 
   - Shader 
@@ -130,6 +132,7 @@ PS：本身不能创建销毁顶点，也没有顶点与顶点之间的关系
 
 ```c
 o.pos = mul(UNITY_MVP, v.position); 
+
 ```
 
 **PS：** NDC（OpenGL同时也是Unity）z的分量范围在[-1，1]之间

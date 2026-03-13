@@ -62,6 +62,7 @@ tags:
 import numpy as np
 labels = np.array([0, 2, 1])
 one_hot = np.eye(3)[labels]
+
 ```
 
 ><font color=camel>一个重要代价</font>：One-hot 编码会直接变成特征，类别数 = 特征维度。类别很多时特征维度会爆炸，这也是 NLP 中常用 embedding 的原因。
@@ -108,6 +109,7 @@ def softmax(z):
   z = z - np.max(z)   # 防止 overflow
   exp_z = np.exp(z)
   return exp_z / np.sum(exp_z)
+
 ```
 
 减去 max 不会改变结果，但可以显著提升数值稳定性。

@@ -113,18 +113,17 @@
 <!-- Custom Theme JavaScript -->
 <script src="{{ " /js/hux-blog.min.js " | prepend: site.baseurl }}"></script>
 
-<!-- Service Worker -->
-{% if site.service-worker %}
+<!-- Service Worker (Unregister old SW to fix caching issue) -->
 <script type="text/javascript">
     if (navigator.serviceWorker) {
-        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
-        navigator.serviceWorker
-            .register('/sw.js')
-            .then((registration) => { console.log('Service Worker Registered. ', registration) })
-            .catch((error) => { console.log('ServiceWorker registration failed: ', error) })
+        navigator.serviceWorker.getRegistrations().then(function (registrations) {
+            for (let registration of registrations) {
+                registration.unregister();
+                console.log('Service Worker Unregistered to fix stale cache');
+            }
+        });
     }
 </script>
-{% endif %}
 
 
 <!-- async load function -->
@@ -282,5 +281,36 @@
             span.innerHTML = font.innerHTML;
             font.parentNode.replaceChild(span, font);
         }
-    })();
+    })();                                             
+</script>
+
+<!-- 鼠标拖尾特效 -->
+<script src="https://cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+
+<!-- 左下角音乐播放器  -->
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" as="style"
+    onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+</noscript>
+<script defer src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+<!-- 播放器配置：替换 id="3778678" 为你喜欢的网易云歌单ID -->
+<meting-js server="netease" type="playlist" id="6890536659" fixed="true" autoplay="true" loop="all" order="list"
+    preload="auto" list-folded="true" mini="true">
+</meting-js>
+
+<script>
+    // 解决现代浏览器自动播放声音拦截问题：只要用户有任何点击/交互行为就强制尝试开始播放
+    function autoPlayAudio() {
+        let meting = document.querySelector('meting-js');
+        if (meting && meting.aplayer && meting.aplayer.audio.paused) {
+            meting.aplayer.play();
+        }
+    }
+    document.body.addEventListener('mousedown', autoPlayAudio, { once: true });
+    document.body.addEventListener('touchstart', autoPlayAudio, { once: true });
+    document.body.addEventListener('keydown', autoPlayAudio, { once: true });
+</script>
 </script>

@@ -40,7 +40,7 @@ layout: default
     <div class="header-mask"></div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="col-lg-9 col-lg-offset-1 col-md-10 col-md-offset-1">
                 <div class="post-heading">
                     <div class="tags">
                         {% for tag in page.tags %}
@@ -69,7 +69,7 @@ layout: default
 
             <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-2
+                col-lg-9 col-lg-offset-1
                 col-md-10 col-md-offset-1
                 post-container">
 
@@ -152,7 +152,7 @@ layout: default
 
             <!-- Sidebar Container -->
             <div class="
-                col-lg-8 col-lg-offset-2
+                col-lg-9 col-lg-offset-1
                 col-md-10 col-md-offset-1
                 sidebar-container">
 
@@ -188,6 +188,70 @@ layout: default
     </div>
 </article>
 
+<!-- 左侧悬浮操作栏 -->
+<style>
+/* 悬浮操作栏 */
+.floating-action-bar {
+    position: fixed;
+    top: 50%;
+    left: 4%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1000;
+}
+.floating-action-bar a, .floating-action-bar button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+.floating-action-bar a:hover, .floating-action-bar button:hover {
+    background-color: #0085a1;
+    color: #fff;
+    transform: scale(1.1);
+}
+/* 1200px以下隐藏（手机/小屏幕设备） */
+@media (max-width: 1200px) {
+    .floating-action-bar {
+        display: none;
+    }
+}
+</style>
+
+<div class="floating-action-bar">
+    <a href="{{ site.baseurl }}/" title="返回主页">
+        <i class="fa fa-home"></i>
+    </a>
+    <a href="#top" id="back-to-top" title="回到顶部">
+        <i class="fa fa-arrow-up"></i>
+    </a>
+    <a href="https://twitter.com/share?url={{ site.url }}{{ page.url }}&text={{ page.title }}" target="_blank" title="分享到 Twitter">
+        <i class="fa fa-twitter"></i>
+    </a>
+    <a href="javascript:window.scrollTo(0,document.body.scrollHeight);" title="直达评论">
+        <i class="fa fa-comments"></i>
+    </a>
+</div>
+
+<script>
+    // 平滑滚动回顶部
+    document.getElementById('back-to-top').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+</script>
 
 {% if site.disqus_username %}
 <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->

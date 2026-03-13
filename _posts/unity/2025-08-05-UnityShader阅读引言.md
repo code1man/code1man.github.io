@@ -4,7 +4,8 @@ title:      UnityShader阅读引言
 date:       2025-08-05 
 subtitle:   UnityShader阅读笔记，之前写的现在放在博客分享记录
 author:     蓝
-header-img: 
+catalog:    true
+header-img: /img/unity/金秋汐汐.jpg
 categories: Unity Shader
 tags:
   - Unity

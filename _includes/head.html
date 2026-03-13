@@ -53,4 +53,169 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
+
+    <!-- 优化的全局布局与开屏动画 -->
+    <style>
+        /* 开屏动画 */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999999;
+            overflow: hidden;
+        }
+
+        .loader {
+            display: block;
+            position: relative;
+            left: 50%;
+            top: 50%;
+            width: 100px;
+            height: 100px;
+            margin: -50px 0 0 -50px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #0085a1;
+            animation: spin 2s linear infinite;
+            z-index: 1001;
+        }
+
+        .loader:before {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #FF5722;
+            animation: spin 3s linear infinite;
+        }
+
+        .loader:after {
+            content: "";
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #F8B500;
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #loader-wrapper .loader-section {
+            position: fixed;
+            top: 0;
+            width: 51%;
+            height: 100%;
+            background: #fff;
+            z-index: 1000;
+            transform: translateX(0);
+        }
+
+        #loader-wrapper .loader-section.section-left {
+            left: 0;
+        }
+
+        #loader-wrapper .loader-section.section-right {
+            right: 0;
+        }
+
+        .loaded #loader-wrapper .loader-section.section-left {
+            transform: translateX(-100%);
+            transition: all 0.3s 0.1s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+        }
+
+        .loaded #loader-wrapper .loader-section.section-right {
+            transform: translateX(100%);
+            transition: all 0.3s 0.1s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+        }
+
+        .loaded .loader {
+            opacity: 0;
+            transition: all 0.2s ease-out;
+        }
+
+        .loaded #loader-wrapper {
+            visibility: hidden;
+            transform: translateY(-100%);
+            transition: all 0.3s 0.4s ease-out;
+        }
+
+        /* 整体博客风格优化 */
+        .post-preview,
+        .container {
+            transition: all 0.3s ease;
+        }
+
+        .post-preview:hover {
+            transform: translateY(-3px);
+        }
+
+        article img {
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        article img:hover {
+            transform: scale(1.02);
+        }
+
+        /* 优化目录展示功能 */
+        .side-catalog {
+            max-height: 75vh;
+            overflow-y: auto;
+            border-radius: 5px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .side-catalog::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .side-catalog::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+    </style>
+
+    <script>
+        // 当页面完全加载后去除开屏动画
+        window.addEventListener('load', function () {
+            document.body.classList.add('loaded');
+        });
+    </script>
+
+    <!-- MathJax for rendering math formulas -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>

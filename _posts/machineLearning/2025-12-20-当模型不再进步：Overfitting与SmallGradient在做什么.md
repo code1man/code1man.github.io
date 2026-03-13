@@ -82,6 +82,7 @@ tags:
   dataset = dataset.shuffle(buffer_size=len(data))  # buffer_size 越大打乱越彻底
   dataset = dataset.batch(batch_size)
   dataset = dataset.repeat(num_epochs)
+
   ```
 
   > <font color=chocolate>注意：`batch()` 应在 `shuffle()` 之后调用，否则 batch 内部不会被打乱。</font>
@@ -115,6 +116,7 @@ tags:
 
   ```python
   optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+
   ```
 - **总结**：小 batch size 和 momentum 有助于跳出鞍点/局部最优。
 
@@ -131,8 +133,10 @@ tags:
     $$
     其中 $G_t$ 是历史梯度平方和。
 - **代码示例（PyTorch）**：
+
     ```python
       optimizer = torch.optim.Adagrad(model.parameters(), lr=0.01)
+
     ```
 - **本质解释**：用一阶导数的平方和近似二阶导数，自动调整步长。更大的梯度不一定意味着远离最小值，因为不同参数的梯度尺度不同，不能跨参数直接比较。
 - **参考论文**：[Duchi et al., 2011, "Adaptive Subgradient Methods for Online Learning and Stochastic Optimization"](https://jmlr.org/papers/v12/duchi11a.html)
@@ -147,8 +151,10 @@ tags:
   $$
   其中 $\gamma$ 通常取 0.9，$\epsilon$ 防止除零。
    - **代码示例（PyTorch）**：
+
     ```python
     optimizer = torch.optim.RMSprop(model.parameters  (), lr=0.01, alpha=0.9)
+
     ```
 #### 1.2.6 Adam
 - **原因**：Adam 结合了 Momentum 和 RMSProp 的思想，既考虑梯度的一阶矩（均值），也考虑二阶矩（方差），对每个参数自适应调整学习率，提升收敛速度和稳定性。
@@ -162,20 +168,24 @@ tags:
   $$
   其中 $\beta_1=0.9$，$\beta_2=0.999$，$\epsilon=10^{-8}$。
 - **代码示例（PyTorch）**：
+
   ```python
   optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+
   ```
 
 #### 1.2.7 Warmup
 - **原因**：在训练初期直接使用较大学习率可能导致模型不稳定，尤其是在大模型或大 batch 训练时。Warmup 通过逐步增加学习率，帮助模型稳定收敛。
 - **方法**：前若干步（如前 5 个 epoch）将学习率从较小值线性或指数增加到目标学习率。
 - **代码示例（PyTorch，使用 LambdaLR）**：
+
   ```python
     def warmup_lr_lambda(epoch):
       if epoch < 5:
           return float(epoch + 1) / 5
       return 1.0
     scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=warmup_lr_lambda)
+
   ```
 ---
 ## 2. Training loss 很小
@@ -210,6 +220,7 @@ tags:
   - **L1 正则化**：损失函数加上参数绝对值之和（$ \lambda \sum |w_i| $），促使部分参数变为零，实现特征选择和稀疏性。
   - **L2 正则化**：损失函数加上参数平方和（$ \lambda \sum w_i^2 $），促使参数整体变小但不为零。
 - **代码实现示例（以 PyTorch 为例）**：
+
   ```python
     # L2 正则化（weight decay）
     optimizer = torch.optim.SGD(model.parameters(), lr=0.01, weight_decay=1e-4)
@@ -218,6 +229,7 @@ tags:
     l1_lambda = 1e-4
     l1_norm = sum(p.abs().sum() for p in model.parameters())
     loss = original_loss + l1_lambda * l1_norm
+
   ```
 - **为什么参数更小会让函数更平滑？**  
   - 以线性模型 $f(x) = w_1 x_1 + w_2 x_2 + \dots + b$ 为例，$w_i$ 越小，输入变化对输出的影响越弱，输出曲线变化更缓慢。对于深度网络，较小的权重意味着每层的输出不会因输入微小扰动而剧烈变化，整体函数对输入的响应更平滑。
@@ -257,6 +269,7 @@ tags:
 - **Small Gradient/Optimization** → 左侧分支，关注优化算法与参数设置
 
 ### 3.1 具体区分情况
+
 | 问题               | Overfitting      | Small Gradient |
 | ------------------ | ---------------- | -------------- |
 | 表现               | Train 好，Val 差 | Train 也不好   |
